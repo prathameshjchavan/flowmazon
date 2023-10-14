@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import PriceTag from "@/components/PriceTag";
 import { Metadata } from "next";
+import AddToCartButton from "./AddToCartButton";
 
 interface Props {
   params: {
@@ -47,6 +48,7 @@ const ProductPage = async ({ params: { id } }: Props) => {
         <h1 className="text-5xl font-bold">{product.name}</h1>
         <PriceTag price={product.price} className="mt-4" />
         <p className="my-6">{product.description}</p>
+        <AddToCartButton productId={product.id} />
       </div>
     </div>
   );
