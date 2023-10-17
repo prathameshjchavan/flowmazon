@@ -2,8 +2,18 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/assets/logo.png";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 type Props = {};
+
+async function searchProduct(formData: FormData) {
+  "use server";
+  const searchQuery = formData.get("search")?.toString();
+
+  if (searchQuery) {
+    redirect(`/search?query=${searchQuery}`);
+  }
+}
 
 const Navbar = (props: Props) => {
   return (
@@ -16,7 +26,7 @@ const Navbar = (props: Props) => {
           </Link>
         </div>
         <div className="flex-none gap-2">
-          <form>
+          <form action={searchProduct}>
             <div className="form-control">
               <input
                 name="searchQuery"
