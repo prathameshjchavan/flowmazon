@@ -3,6 +3,8 @@ import Image from "next/image";
 import logo from "@/assets/logo.png";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getCart } from "@/lib/db/cart";
+import ShoppingCartButton from "./ShoppingCartButton";
 
 type Props = {};
 
@@ -15,7 +17,9 @@ async function searchProduct(formData: FormData) {
   }
 }
 
-const Navbar = (props: Props) => {
+const Navbar = async (props: Props) => {
+  const cart = await getCart();
+
   return (
     <nav className="bg-base-100">
       <div className="navbar m-auto max-w-7xl flex-col gap-2 sm:flex-row">
@@ -35,6 +39,7 @@ const Navbar = (props: Props) => {
               />
             </div>
           </form>
+          <ShoppingCartButton cart={cart} />
         </div>
       </div>
     </nav>
