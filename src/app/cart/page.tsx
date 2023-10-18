@@ -1,6 +1,7 @@
 import { getCart } from "@/lib/db/cart";
 import React from "react";
 import CartEntry from "./CartEntry";
+import { setProductQuantity } from "./action";
 
 type Props = {};
 
@@ -15,7 +16,11 @@ const CartPage = async (props: Props) => {
     <div>
       <h1 className="mb-6 text-3xl font-bold">Shopping Cart</h1>
       {cart?.items.map((cartItem) => (
-        <CartEntry key={cartItem.id} cartItem={cartItem} />
+        <CartEntry
+          key={cartItem.id}
+          setProductQuantity={setProductQuantity}
+          cartItem={cartItem}
+        />
       ))}
     </div>
   );

@@ -4,13 +4,19 @@ import { CartItemWithProducts } from "@/lib/db/cart";
 import { formatPrice } from "@/lib/format";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useTransition } from "react";
 
 interface Props {
   cartItem: CartItemWithProducts;
+  setProductQuantity: (productId: string, quantity: number) => Promise<void>;
 }
 
-const CartEntry = ({ cartItem: { product, quantity } }: Props) => {
+const CartEntry = ({
+  cartItem: { product, quantity },
+  setProductQuantity,
+}: Props) => {
+  const [isPending, startTransition] = useTransition();
+
   return (
     <div>
       <div className="flex flex-wrap items-center gap-3">
@@ -32,7 +38,14 @@ const CartEntry = ({ cartItem: { product, quantity } }: Props) => {
               name="quantity"
               className="select select-bordered w-full max-w-[80px]"
               defaultValue={quantity}
+              onChange={(e) => {
+                const newQuantity = parseInt(e.currentTarget.value);
+                startTransition(async () => {
+                  await setProductQuantity(product.id, newQuantity);
+                });
+              }}
             >
+              <option value={0}>0 (Remove)</option>
               {new Array(99).fill(null).map((_, index) => (
                 <option key={index + 1} value={index + 1}>
                   {index + 1}
@@ -42,6 +55,9 @@ const CartEntry = ({ cartItem: { product, quantity } }: Props) => {
           </div>
           <div className="flex items-center gap-2">
             Total: {formatPrice(product.price * quantity)}
+            {isPending && (
+              <span className="loading loading-spinner loading-sm" />
+            )}
           </div>
         </div>
       </div>
