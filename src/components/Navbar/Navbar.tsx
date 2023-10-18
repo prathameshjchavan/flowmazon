@@ -5,6 +5,9 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getCart } from "@/lib/db/cart";
 import ShoppingCartButton from "./ShoppingCartButton";
+import UserMenuButton from "./UserMenuButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 type Props = {};
 
@@ -19,6 +22,7 @@ async function searchProduct(formData: FormData) {
 
 const Navbar = async (props: Props) => {
   const cart = await getCart();
+  const session = await getServerSession(authOptions);
 
   return (
     <nav className="bg-base-100">
@@ -40,6 +44,7 @@ const Navbar = async (props: Props) => {
             </div>
           </form>
           <ShoppingCartButton cart={cart} />
+          <UserMenuButton session={session} />
         </div>
       </div>
     </nav>
