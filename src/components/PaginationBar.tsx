@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { Fragment } from "react";
 
 interface Props {
   currentPage: number;
@@ -25,7 +25,26 @@ const PaginationBar = ({ currentPage, totalPages }: Props) => {
     );
   }
 
-  return <div className="join">{numberedPageItems}</div>;
+  return (
+    <Fragment>
+      <div className="join hidden sm:block">{numberedPageItems}</div>
+      <div className="join sm:hidden">
+        {currentPage > 1 && (
+          <Link href={`?page=${currentPage - 1}`} className="btn join-item">
+            «
+          </Link>
+        )}
+        <button className="btn join-item pointer-events-none">
+          Page {currentPage}
+        </button>
+        {currentPage < totalPages && (
+          <Link href={`?page=${currentPage + 1}`} className="btn join-item">
+            »
+          </Link>
+        )}
+      </div>
+    </Fragment>
+  );
 };
 
 export default PaginationBar;
