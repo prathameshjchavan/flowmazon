@@ -99,11 +99,18 @@ export async function mergeAnonymousCartIntoUserCart(userId: string) {
         where: { cartId: userCart.id },
       });
 
-      await tx.cartItem.createMany({
-        data: mergedCartItems.map((item) => {
-          const { id, cartId, ...data } = item;
-          return { cartId: userCart.id, ...data };
-        }),
+      await tx.cart.update({
+        where: { id: userCart.id },
+        data: {
+          items: {
+            createMany: {
+              data: mergedCartItems.map((item) => {
+                const { id, cartId, ...data } = item;
+                return data;
+              }),
+            },
+          },
+        },
       });
     } else {
       await tx.cart.create({
