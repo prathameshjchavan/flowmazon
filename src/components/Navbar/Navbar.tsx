@@ -13,7 +13,7 @@ type Props = {};
 
 async function searchProduct(formData: FormData) {
   "use server";
-  const searchQuery = formData.get("search")?.toString();
+  const searchQuery = formData.get("searchQuery")?.toString();
 
   if (searchQuery) {
     redirect(`/search?query=${searchQuery}`);
