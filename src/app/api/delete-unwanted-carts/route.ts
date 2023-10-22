@@ -13,9 +13,10 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  await prisma.product.deleteMany({
+  await prisma.cart.deleteMany({
     where: {
-      createdAt: { lt: new Date(new Date().setDate(new Date().getDate() - 7)) },
+      updatedAt: { lt: new Date(new Date().setDate(new Date().getDate() - 7)) },
+      userId: { isSet: false },
     },
   });
 
