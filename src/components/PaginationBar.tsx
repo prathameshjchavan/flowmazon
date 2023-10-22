@@ -22,9 +22,10 @@ const PaginationBar = ({ currentPage, totalPages }: Props) => {
     router.push(`${pathname}?${query}`);
   };
 
-  for (let page = minPage; page < maxPage; page++) {
+  for (let page = minPage; page <= maxPage; page++) {
     numberedPageItems.push(
       <button
+        key={page}
         onClick={() => addPageQueryParam(page)}
         className={`btn join-item ${
           currentPage === page ? "btn-active pointer-events-none" : ""
